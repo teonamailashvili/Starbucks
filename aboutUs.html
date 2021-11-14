@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>about us</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Antic+Slab&display=swap');
+        h1, h2{
+            text-align: center;
+            text-transform: uppercase;
+            color: #1e3932;
+            font-family: SoDoSans,Helvetica Neue,Helvetica,Arial,sans-serif;
+        }
+
+        .subtext{
+            text-align: center;
+            font-style: italic;
+            font-family: SoDoSans,Helvetica Neue,Helvetica,Arial,sans-serif;
+            font-size: 20px;
+            color: #2B8815;
+        }
+
+        .text{
+            margin: 20px;
+            font-family: SoDoSans,Helvetica Neue,Helvetica,Arial,sans-serif;
+            font-size: 17px;
+            color: #1e3932;
+        }
+
+        .container{
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+        }
+
+        .profile{
+            background-color: #F2F0EB;
+            border-radius: 10px;
+            height: auto;
+            margin: 0px 20px 20px 20px;
+            text-align: center;
+        }
+
+        img{
+            width: 180px;
+        }
+
+        .name{
+            font-family: 'Antic Slab', serif;
+        }
+
+        @media (max-width: 454px) {
+            .profile{
+                width: 100%;
+            }
+        }
+        
+    </style>
+</head>
+<body>
+    <header>
+        <nav class="nav-menu" id="responsive-nav">
+            <a href="index-homepage.html">
+                <img src="images/logo.png" alt="starbucks-logo" class="logo" style="width: 50px; height: 50px;">
+            </a>
+        </nav>
+    </header>
+    <div class="info">
+        <h1>company information</h1>
+        <p class="subtext">inspire and nurture the human spirit – one person, one cup, and one neighborhood at a time.</p>
+        <p class="text">Every day, we go to work hoping to do two things: share great coffee with our friends and help make the world a little better. 
+            It was true when the first Starbucks opened in 1971, and it’s just as true today.
+            Back then, the company was a single store in Seattle’s historic Pike Place Market. 
+            From just a narrow storefront, Starbucks offered some of the world’s finest fresh-roasted whole bean coffees. 
+            The name, inspired by Moby Dick, evoked the romance of the high seas and the seafaring tradition of the early coffee traders.
+            In 1981, Howard Schultz (Starbucks chairman and chief executive officer) had first walked into a Starbucks store.
+            From his first cup of Sumatra, Howard was drawn into Starbucks and joined a year later.
+            In 1983, Howard traveled to Italy and became captivated with Italian coffee bars and the romance of the coffee experience.
+            He had a vision to bring the Italian coffeehouse tradition back to the United States. A place for conversation and a sense of community. 
+            A third place between work and home. He left Starbucks for a short period of time to start his own Il Giornale coffeehouses 
+            and returned in August 1987 to purchase Starbucks with the help of local investors.
+            From the beginning, Starbucks set out to be a different kind of company. One that not only celebrated coffee and the rich tradition, 
+            but that also brought a feeling of connection.</p>
+    </div>
+
+    <div id="employees_api">
+        <h2 style="margin-top: 50px;">TOP employees</h2>
+    </div>
+
+    <script>
+        function employeesList(){
+        function render(){
+            let responseData = JSON.parse(this.responseText);
+            console.log(responseData);
+
+            let container = document.createElement('div');
+            container.setAttribute('class', 'container');
+
+            responseData.data.forEach(item => {
+                let profile = document.createElement('div');
+                profile.setAttribute('class', 'profile');
+
+                let image = document.createElement('img');
+                image.src = item.avatar;
+
+                let p = document.createElement('p');
+                p.setAttribute('class', 'name')
+                p.textContent = item.first_name + " " + item.last_name;
+
+                profile.appendChild(image);
+                profile.appendChild(p);
+
+                container.appendChild(profile);
+            });
+            
+            document.getElementById('employees_api').appendChild(container);
+
+            
+        }
+
+        let request = new XMLHttpRequest();
+        request.addEventListener('load', render);
+
+        request.open("GET", "https://reqres.in/api/users?page=2");
+        request.send();
+    }
+    employeesList();
+    </script>
+</body>
+</html>
